@@ -55,6 +55,18 @@ static void initialiseIO()
 {
     gpio_init(PIN_LED);
     gpio_init(PIN_NRST);
+
+    // TDOD sort out constants for pin numbering
+    gpio_init(2);  // A0
+    gpio_init(3);  // A1
+    gpio_init(4);  // A2
+    gpio_init(5);  // A3
+
+    gpio_init(6);  // 1MHZ
+    gpio_init(7);  // RNW
+
+    gpio_init(17); // NB400
+
     gpio_set_dir(PIN_LED, GPIO_OUT);
     for (int i = 0; i <= 7; i++)
     {
@@ -166,6 +178,7 @@ int main()
     gpio_set_irq_enabled_with_callback(PIN_NRST, GPIO_IRQ_LEVEL_LOW, true, &gpio_callback);
 
     printf("Acorn Atom MMC/PL8 Interface " __DATE__ " " __TIME__ "\n");
+    printf("TODO The following number should be 0xec %x\n", sizeof (accessctrl_hw_t));
     if (watchdog_caused_reboot())
     {
         printf("BREAK\n");
