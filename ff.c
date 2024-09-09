@@ -198,7 +198,7 @@ int mem_cmp (const void* dst, const void* src, int cnt) {
 
 /* Check if chr is contained in the string */
 static
-int chk_chr (const rom char* str, int chr) {
+int chk_chr (const char* str, int chr) {
 	while (*str && *str != chr) str++;
 	return *str;
 }
@@ -1276,7 +1276,7 @@ FRESULT create_name (
 		} else 
 #endif
 		{						/* Single byte code */
-			if (chk_chr((const rom char*)" \"*+,[=]|\x7F", c))	/* Reject illegal chrs for SFN */
+			if (chk_chr((const char*)" \"*+,[=]|\x7F", c))	/* Reject illegal chrs for SFN */
 				return FR_INVALID_NAME;
 			if (IsUpper(c)) {			/* ASCII large capital? */
 				b |= 2;

@@ -26,7 +26,6 @@ pico_enable_stdio_uart(rpipFirmware3 1)
 pico_add_extra_outputs(rpipFirmware3)
 
 add_compile_definitions(PLATFORM=4)
-add_compile_definitions(rom=)
 
 target_sources(rpipFirmware3 
     PRIVATE rpipFirmware.c 
