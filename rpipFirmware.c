@@ -171,11 +171,11 @@ int main()
 
 
 #if defined (PICO_RP2350)
-    // Extend the NRST signal whan the Atom is first turned on.
+    // Extend the NRST signal when the Atom is first turned on.
     if (!watchdog_caused_reboot()) {
             gpio_init(PIN_NRST);
-            gpio_set_dir(PIN_NRST, true);
             gpio_put(PIN_NRST, false);
+            gpio_set_dir(PIN_NRST, true);
             busy_wait_ms(1000);
             gpio_set_dir(PIN_NRST, false);
     }
