@@ -1,4 +1,6 @@
-build
-build2
+build/**
+build2/**
+!build/rpipFirmware3.uf2
+!build2/rpipFirmware3.uf2
 build-old
-.vscode
+.vscode/**
