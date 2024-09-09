@@ -55,6 +55,7 @@ static void initialiseIO()
 {
     gpio_init(PIN_LED);
     gpio_init(PIN_NRST);
+    gpio_pull_up(PIN_NRST);
 
     // TDOD sort out constants for pin numbering
     gpio_init(2);  // A0
@@ -156,8 +157,8 @@ void gpio_callback(uint gpio, uint32_t events)
         else
         {
             pico_led(1);
-            watchdog_enable(1, 0);
-            //pio_sm_set_enabled(pio, 0, false);
+            watchdog_enable(100, 0);
+            pio_sm_set_enabled(pio, 0, false);
             watchdog_enabled = true;
         }
     }
@@ -167,6 +168,19 @@ int main()
 {
     bi_decl(bi_program_description("Acorn Atom MMC/PL8 Interface" __DATE__ " " __TIME__));
     bi_decl(bi_1pin_with_name(PIN_LED, "On-board LED"));
+
+
+#if defined (PICO_RP2350)
+    // Extend the NRST signal whan the Atom is first turned on.
+    if (!watchdog_caused_reboot()) {
+            gpio_init(PIN_NRST);
+            gpio_set_dir(PIN_NRST, true);
+            gpio_put(PIN_NRST, false);
+            busy_wait_ms(1000);
+            gpio_set_dir(PIN_NRST, false);
+    }
+#endif
+
     stdio_init_all();
 
     sd_init_1pin();
@@ -178,7 +192,6 @@ int main()
     gpio_set_irq_enabled_with_callback(PIN_NRST, GPIO_IRQ_LEVEL_LOW, true, &gpio_callback);
 
     printf("Acorn Atom MMC/PL8 Interface " __DATE__ " " __TIME__ "\n");
-    printf("TODO The following number should be 0xec %x\n", sizeof (accessctrl_hw_t));
     if (watchdog_caused_reboot())
     {
         printf("BREAK\n");
